@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2019.04.09.01.46.10;	author p;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+<!-- <h2>{{ctrl.value}}</h2> -->
+
+<div class="header">
+<span class="label">beat:</span> {{ctrl.heart}}
+<span class="label">query:</span> {{ctrl.query}} 
+<span class="label">status:</span> {{ctrl.status}} 
+</div>
+
+<div>
+
+</div>
+
+<div id="resultsDiv">
+<ng-bind-html ng-bind-html="ctrl.output">
+</ng-bind-html>
+</div>
+
+<!-- <p> -->
+<!-- out: {{ctrl.output}} -->
+<!-- </p> -->
+@

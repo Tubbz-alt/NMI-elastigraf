@@ -1,0 +1,322 @@
+head	1.3;
+access;
+symbols;
+locks
+	p:1.3; strict;
+comment	@# @;
+
+
+1.3
+date	2019.04.09.02.05.16;	author p;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2019.04.09.01.46.20;	author p;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2019.04.06.02.54.53;	author p;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@Summary: ok, working, no clutter infor, but missed good configuration section in Edit.
+@
+text
+@
+import {PanelCtrl} from 'app/plugins/sdk';
+import moment from 'moment';
+import './css/test-panel.css!';
+
+export class TestCtrl extends PanelCtrl { 
+   constructor($scope, $injector) {
+      super($scope, $injector );
+      this.idx = 0;
+      this.output = "<empty>"
+      this.updateContent();
+      this.templateSrv = $injector.get('templateSrv');
+      this.previousQuery = "";
+      this.waitMs = 5000;
+      this.callDeltaMs = 5000;
+      this.lastCallTime = null;
+      this.query = "";
+      this.status = "IDLE";
+      this.heart = "O";
+   }
+
+
+   // Ajax call Elasticsearch and set global variables either directly
+   // or after a callback.
+   remoteCall(d) { 
+
+      // synonim for "this" to be used later. 
+      var that = this;
+
+      var epochMs = new Date().valueOf();
+
+      // .Run the ajax call, if the queryStr is new stuff 
+      // .It is supposed the call is made by the browser, so 
+      //  it must be possible for the user computer to access 
+      //  Elasticsearch.
+      if (this.status === "WAIT-RESPONSE") { 
+	 // console.log("DBG> --- stop call, wait response");
+	 return; 
+      }
+      if (this.lastCallTime !== null && 
+	  ((epochMs - this.lastCallTime) <= this.callDeltaMs) ) { 
+	 this.status = "IDLE";
+	 return; 
+      }
+      this.status = "WAIT-RESPONSE";
+      // console.log("DBG> WAIT-RESPONSE");
+      this.lastCallTime = epochMs;
+      $.ajax({type:"POST",
+	      dataType:"json",
+	      contentType: "application/json",
+              url:"http://localhost:19200/lclslogs/_search", 
+	      cache: false,
+              data: JSON.stringify(d),
+              success: function(data) { 
+		 var outVals = data["hits"]["hits"];
+		 var outHTML = "<ul id='resultsList'>";
+		 // if there are not results to display return put and empty 
+		 // string in the HTML code.
+		 if (outVals.length === 0) { 
+		    outHTML = "<span class='errorString'><b>No Match</b></span>";
+		 } else {
+		 // if there are results to display than create a list <ul> .. </ul>
+		 // in HTML to represent them.
+		    for(var i=0; i<outVals.length; i++) {
+		       var el = outVals[i];
+		       var elStr = el["_source"]["src"];
+		       outHTML = outHTML + `<li class="resultItem"> ${elStr}`;
+		    }
+		    outHTML = outHTML + "</ul>";		    
+		 }
+		 that.output = outHTML;
+		 //
+		 that.status = "IDLE";
+		 // console.log("DBG> IDLE");
+		 // that.$timeout( () => { that.updateContent(); }, that.waitMs );
+      	      },
+	      error: function(data) { 
+		 // 
+		 that.status = "IDLE";
+		 // console.log("DBG> IDLE");
+		 // that.$timeout( () => { that.updateContent(); }, that.waitMs );
+	      }
+             });	 
+
+   }
+
+   updateContent() { 
+      this.value = "foo bar: " + moment().format('hh:mm:ss');
+
+      // synonim for "this" to be used later. 
+      var that = this;
+
+      // get the value of queryStr from the interface 
+      var queryStr = "";
+      try {
+	 var templateSrv = this.templateSrv;
+	 queryStr = templateSrv.replace('$lquery');
+	 this.query = queryStr;
+	 // console.log("v1: " + queryStr);
+      } catch (err) {
+	 // console.log("error: " + err);
+      }
+
+      // update the value of the heartbeat letter: "o" OR "O".
+      this.idx = this.idx + 1;
+      if ((this.idx % 2) == 0) { 
+	 this.heart = "O";
+      } else { 
+	 this.heart = "o";
+      }
+
+      var maxTime = new Date().valueOf() + "";
+      var d =  {   "size": 20,
+	           "query": { 
+                        "bool": { 
+                          "must": { 
+                            "query_string": { 
+                                      "default_field" : "src", 
+                                      "query"         : `* AND ( ${queryStr} )` 
+                             }
+                           }, 
+                           "filter": { 
+                              "range": { 
+                                 "date": { 
+                                     "gt" : "0", 
+                                     "lt" : maxTime 
+                                 } 
+                              }
+                           }
+                         } 
+                        }
+                       ,"sort": {"date": {"order": "desc"}}  
+              };
+
+
+      this.remoteCall(d);
+      // console.log(d);
+
+      this.$timeout( () => { this.updateContent(); }, 500 );
+
+   }
+}
+
+
+TestCtrl.templateUrl = 'module.html'
+
+@
+
+
+1.2
+log
+@Summary: ok
+@
+text
+@d37 1
+a37 1
+	 console.log("DBG> --- stop call, wait response");
+d46 1
+a46 1
+      console.log("DBG> WAIT-RESPONSE");
+d74 1
+a74 1
+		 console.log("DBG> IDLE");
+d80 1
+a80 1
+		 console.log("DBG> IDLE");
+d94 1
+a94 1
+      var queryStr = ""
+d104 1
+a104 1
+      // 
+d137 1
+a137 45
+      console.log(d);
+
+
+      // .Run the ajax call, if the queryStr is new stuff 
+      // .It is supposed the call is made by the browser, so 
+      //  it must be possible for the user computer to access 
+      //  Elasticsearch.
+      // this.status = "WAIT RESPONSE";
+      // console.log("DBG> WAIT RESPONSE");
+      // $.ajax({type:"POST",
+      // 	      dataType:"json",
+      // 	      contentType: "application/json",
+      //         url:"http://localhost:19200/lclslogs/_search", 
+      // 	      cache: false,
+      //         data: JSON.stringify(d),
+      //         success: function(data) { 
+      // 		 var outVals = data["hits"]["hits"];
+      // 		 var outHTML = "<ul id='resultsList'>";
+      // 		 // if there are not results to display return put and empty 
+      // 		 // string in the HTML code.
+      // 		 if (outVals.length === 0) { 
+      // 		    outHTML = "<span class='errorString'><b>No Match</b></span>";
+      // 		 } else {
+      // 		 // if there are results to display than create a list <ul> .. </ul>
+      // 		 // in HTML to represent them.
+      // 		    for(var i=0; i<outVals.length; i++) {
+      // 		       var el = outVals[i];
+      // 		       var elStr = el["_source"]["src"];
+      // 		       outHTML = outHTML + `<li class="resultItem"> ${elStr}`;
+      // 		    }
+      // 		    outHTML = outHTML + "</ul>";		    
+      // 		 }
+      // 		 that.output = outHTML;
+      // 		 //
+      // 		 that.status = "IDLE";
+      // 		 console.log("DBG> IDLE");
+      // 		 that.$timeout( () => { that.updateContent(); }, that.waitMs );
+      // 	      },
+      // 	      error: function(data) { 
+      // 		 // 
+      // 		 that.status = "IDLE";
+      // 		 console.log("DBG> IDLE");
+      // 		 that.$timeout( () => { that.updateContent(); }, that.waitMs );
+      // 	      }
+      //        });	 
+a140 1
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d14 3
+a16 1
+      this.waitMs = 10000;    
+d19 66
+d99 1
+a99 1
+	 console.log("v1: " + queryStr);
+d101 1
+a101 1
+	 console.log("error: " + err);
+d104 1
+d106 5
+d119 1
+a119 1
+                                      "query"         : `"* AND ( ${queryStr} )"` 
+d136 4
+d144 38
+a181 38
+      this.status = "WAIT RESPONSE";
+      console.log("DBG> WAIT RESPONSE");
+      $.ajax({type:"POST",
+	      dataType:"json",
+	      contentType: "application/json",
+              url:"http://localhost:19200/lclslogs/_search", 
+	      cache: false,
+              data: JSON.stringify(d),
+              success: function(data) { 
+		 var outVals = data["hits"]["hits"];
+		 var outHTML = "<ul id='resultsList'>";
+		 // if there are not results to display return put and empty 
+		 // string in the HTML code.
+		 if (outVals.length === 0) { 
+		    outHTML = "<span class='errorString'><b>No Match</b></span>";
+		 } else {
+		 // if there are results to display than create a list <ul> .. </ul>
+		 // in HTML to represent them.
+		    for(var i=0; i<outVals.length; i++) {
+		       var el = outVals[i];
+		       var elStr = el["_source"]["src"];
+		       outHTML = outHTML + `<li class="resultItem"> ${elStr}`;
+		    }
+		    outHTML = outHTML + "</ul>";		    
+		 }
+		 that.output = outHTML;
+		 //
+		 that.status = "IDLE";
+		 console.log("DBG> IDLE");
+		 that.$timeout( () => { that.updateContent(); }, that.waitMs );
+      	      },
+	      error: function(data) { 
+		 // 
+		 that.status = "IDLE";
+		 console.log("DBG> IDLE");
+		 that.$timeout( () => { that.updateContent(); }, that.waitMs );
+	      }
+             });	 
+d183 1
+a183 1
+      // this.$timeout( () => { this.updateContent(); }, 2000 );
+@

@@ -1,0 +1,79 @@
+
+<div class="editor-row">
+
+ <div class="section gf-form-group">
+
+  <h5 class="section-heading">Query Options</h5>
+
+	<div class="gf-form">
+	  <label class="gf-form-label" style="width:10vw;">Auto refresh</label>
+	  <div class="gf-form-select-wrapper" style="width:10vw;">
+    	    <select class="input-medium gf-form-input"
+		ng-model="ctrl.callDeltaMs"
+		ng-change="ctrl.render();">
+	     <option value="10000000000"> Disabled </option>
+	     <option value="5000" selected> 5 seconds </option>
+	     <option value="10000"> 10 seconds </option>
+          </select>
+	</div>
+	</div>
+
+	<div class="gf-form">
+	  <label class="gf-form-label" style="width:10vw;">Default query</label>
+	  <div class="gf-form" style="width:70vw;">
+	    <input type="text" 
+		   class="input-large gf-form-input max-width-50" 
+		   ng-model="ctrl.defaultQuery" 
+		   ng-change="ctrl.onConfigChanged()" 
+		   ng-model-onblur 
+		   />	    
+          </div>	  
+        </div>
+
+
+	<div class="gf-form">
+	  <label class="gf-form-label" style="width:10vw;">URL</label>
+	  <div class="gf-form" style="width:70vw;">
+	  <!-- <div class="gf-form"> -->
+	    <input type="text"		   
+		   class="input-large gf-form-input ng-pristine" 
+		   ng-model="ctrl.url" 
+		   ng-change="ctrl.onConfigChanged()" 
+		   ng-model-onblur 
+		   />	    
+          </div>	  
+        </div>
+
+
+
+    <h5 class="section-heading" style="margin-top:30px;"> Elasticsearch Query  </h5>
+
+      <div class="gf-form gf-form--grow">
+	<code-editor
+  	  content="ctrl.defaultElasticCall"
+	  <!-- on-change="ctrl.updateFN()" -->
+	  data-mode="javascript"
+	  data-behaviours-enabled="true"
+	  data-snippets-enabled="false"
+	  data-lines="100" >
+	</code-editor>
+      </div>
+
+
+    <h5 class="section-heading" style="margin-top:30px;"> Convert JSON to HTML  </h5>
+
+      <div class="gf-form gf-form--grow">
+	<code-editor
+  	  content="ctrl.defaultConvertJSONtoText"
+	  <!-- on-change="ctrl.updateFN()" -->
+	  data-mode="javascript"
+	  data-behaviours-enabled="true"
+	  data-snippets-enabled="false"
+	  data-max-lines="100" >
+	</code-editor>
+      </div>
+
+
+
+  </div>
+</div>

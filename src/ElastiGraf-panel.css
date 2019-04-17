@@ -1,0 +1,32 @@
+
+div.header { 
+    font-family: monospace;
+}
+
+span.label { 
+    color: cyan;
+    background-color: transparent;
+}
+
+div#resultsDiv { 
+    margin-top: 15px;
+    padding-left: 10px;
+    overflow-y:scroll;   
+    height: 80%;
+}
+
+/* ul#resultsList {  */
+/*     margin-left: 20px; */
+/* } */
+
+li.resultItem { 
+    margin-left: 10px;
+}
+
+span.errorString { 
+    color: red;
+
+}
+
+
+

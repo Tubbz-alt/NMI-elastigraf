@@ -1,0 +1,28 @@
+
+
+-] La mia home e' montata su fbs3 in modo che possa compilare
+   da FreeBSD o altre macchine senza dover aggiungere software
+   a psmetric01 o pemstric04.
+
+-] Gli esempi di plugin grafana sono tutti in Ecmascript6, 
+   ma Grafana gira in Ecmascript5, quindi e' necessario per me
+   tradurre. 
+
+-] Compilare da es6 ad es5 e' possibile con "babel", un package
+   di node. 
+
+-] I have intstalled it in FreeBSD fb3, so i expect to do
+   the compilations there.
+
+-] The command to launch to compile es6 to es5 is: 
+
+$> babel ./module-es6.js --out-file module.js
+
+-] It is necessary the file ".babelrc" in the current directory.
+
+--------- .babelrc -------------
+{
+  "presets": ["/home/p/node_modules/@babel/preset-env"]
+}
+--------------------------------
+

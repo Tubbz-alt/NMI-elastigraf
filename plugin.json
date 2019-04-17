@@ -1,0 +1,36 @@
+{
+  "type": "panel",
+  "name": "ElastiGraf",
+  "id": "elastigraf-panel",
+  "info": {
+    "description": "Elasticsearch text queries from a Grafana Panel.",
+    "author": {
+      "name": "nmingott",
+      "url": "https://github.com/foobar"
+    },
+    "keywords": ["", "panel"],
+    "logos": { 
+       "small": "data/img/logo4.svg",
+       "large": "data/img/logo4.svg"
+    },
+    "links": [
+      {
+        "name": "Project site",
+        "url": "https://github.com/xxxxyyyy/ajax-panel"
+      },
+      {
+        "name": "GPL License",
+        "url": "https://github.com/xxx/LICENSE"
+      }
+    ],
+    "screenshots": [
+      { }
+    ],
+     "version": "0.1.1",
+    "updated": "2019-04-16"
+  },
+  "dependencies": {
+    "grafanaVersion": "5.x.x",
+    "plugins": []
+  }
+}
