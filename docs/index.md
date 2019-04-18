@@ -27,6 +27,9 @@ It is possible to use the plugin without defining a Grafana Template Variable,
 ## How to add the Template Variable 
 
 The template variable permits to perform searches rapidly. 
-....
+
+![Screenshot of Variable creation]
+(https://github.com/nmingotti/ElastiGraf/edit/master/docs/pics/grafana-variable-lucene.png)
+
 
 
