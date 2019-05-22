@@ -85,6 +85,11 @@ li.fact {
     margin-top: 20px;
 }
 
+span.proc {
+   font-family: "Roboto Mono";
+   font-size: 0.80em;    
+}
+
 span.cmd { 
    font-family: "Roboto Mono";
    font-size: 0.80em;
@@ -124,4 +129,18 @@ div.output {
    padding-bottom:10px;   
 }
 
+
+div.configFile { 
+   font-family: "Roboto Mono";
+   font-size: 0.80em;
+   /* font-family: monospace; */
+    overflow-x: auto;
+   /* white-space: pre-wrap; */
+   white-space: pre;
+   background-color: lightgrey;
+   color: chocolate;        
+   padding-left:10px;
+   padding-bottom:10px;   
+   padding-top:10px;
+}
 

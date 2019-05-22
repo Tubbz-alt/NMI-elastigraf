@@ -23,7 +23,7 @@
 
 <body>
 
-<h1> elastigraf - (to be fixed) </h1>
+<h1> elastigraf</h1>
 <hr>
 <p>
 Grafana plugin to search log lines into Elasticsearch. <a style="margin-left:10px;" href="https://github.com/slac-lcls/elastigraf">[code on GitHub]</a>
@@ -34,16 +34,15 @@ Grafana plugin to search log lines into Elasticsearch. <a style="margin-left:10p
 <hr>
 
 <p>
-At SLAC we moved recently many server log files under Elasticsearch. It is now very easy and fast to do a text search into all log files from the <b>shell</b> (using <a href="https://github.com/slac-lcls/elastico">elastico</a>) or from <b>Kibana</b>. Since our system analysts use often <b>Grafana</b> to keep an eye on the performance of many machines it was considered pratical to the to be able to query also Elasticsearch logfiles from Grafana. 
+At SLAC we moved recently many server log files under Elasticsearch. It is now very easy and fast to do a text search into all log files from the <b>shell</b> (using <a href="https://github.com/slac-lcls/elastico">elastico</a>) or from <b>Kibana</b>. Since our system analysts use often <b>Grafana</b> to keep an eye on the performance of many machines it was considered practical to the to be able to query also Elasticsearch <i>lslslogs</i> index from Grafana. Then, <b>elasticall</b> was born.
+</p>
+
+<p>
+Being this software GUI based we will show a bit of how it works via videos. It is seems the most practical way to do it.
 </p>
 
 <h2> How does it look like ?  </h2>
 <hr>
-
-<!-- <p>In this <a href="https://youtu.be/kzTXK6Nzack">first video</a> we show the basic functionality of the plugin.</p> -->
-<!-- <p><a href="https://youtu.be/kzTXK6Nzack" target="_blank"> -->
-<!--  <img width="560" height="315" src="https://img.youtube.com/vi/kzTXK6Nzack/0.jpg" alt="grafana-variables" /> -->
-<!-- </a></p> -->
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kzTXK6Nzack" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -55,7 +54,7 @@ At SLAC we moved recently many server log files under Elasticsearch. It is now v
 <p> 
 <b>VIDEO ERRATA.</b>
 <ul>
-<li> At time 2:43 -- 2:45, I say two times "Elasticquery", it must be replaced with "Elasticsearch". 
+<li> At time 2:43 -- 2:45, I say two times "Elastic-query", it must be replaced with "Elasticsearch". 
 <li> At time 9:22, "psmetric01" and "psmetric04" are inverted. 
 </ul>
 </p>
@@ -63,7 +62,7 @@ At SLAC we moved recently many server log files under Elasticsearch. It is now v
 <h2>How do I configure it ?</h2>
 <hr>
 
-<p> The plugin has been tested in Grafana 5.4.0, Elasticsearch 6.5.1 running under Linux. </p>
+<p> The plugin has been tested in Grafana 5.4.0 and Elasticsearch 6.5.1 running under Linux. </p>
 
 <p>
 When you use the plugin your Web browser calls Grafana but it needs to call directly also Elasticsearch. This may change in future, it is a first release simplification. 
@@ -71,23 +70,19 @@ When you use the plugin your Web browser calls Grafana but it needs to call dire
 
 <p>
 Consequences: (-) Elasticsearch must be reachable by your browser. (-) CORS must be enabled into Elasticsearch,
-and this is achived with:
+
 </p>
 
-<pre><code>
-  ------- elasticsearch.yml --------------------------------- 
-  http.cors.enabled: true
-  http.cors.allow-origin: "*"
-  ------------------------------------------------------------ 
- </code></pre>
-
 <ol>
-<li> After the modification to <code>elasticsearch.yml</code> restart Elasticsearch server.
+  <li> Enable CORS in Elasticsearch appending to the file <i>elasticsearch.yml</i>:
+  <div class="configFile">http.cors.enabled: true
+http.cors.allow-origin: "*"</div>
+<li style="margin-top:2px"> After the modification to <code>elasticsearch.yml</code> restart Elasticsearch server.
 <li>  Download the software from GitHub and unzip it.
 <li>  Place the directory <code>ElastiGraf-master</code> under Grafana <code>data/plugins</code> directory. 
 <li> (maybe not necessary) Rename the plugin directory to: <code>elastigraf-panel-master</code>.
 <li>  Restart Grafana.
-<li> Add the ElastiGraf panel to one of your dashboards, possibly a new one.
+<li> Add the Elastigraf panel to one of your dashboards, possibly a new one.
 </ol>
 
 
@@ -96,21 +91,20 @@ and this is achived with:
 
 <p>
 The template variable permits to change the Lucene query rapidly.  When the template 
-variable is defined it overrides the value of the option <code>Edit -&gt; Option -&gt; Default query</code>.
+variable is defined it overrides the value of the option <span class="cmd">Edit -> Option -> Default query</span>.
 </p>
 
 <p>
-The template variable is not required to use the plugin but highly reccomented if 
-frequent changes to the Lucene query are expected.
+The template variable is not required to use the plugin but highly recommended if frequent changes to the Lucene query are expected.
 </p>
 
 <p>
- You can set a template variable in a Dashboard clicking the icon <code>Settings</code>, the gear icon on the 
- top right, and then pressing the <code>Variable</code> label on the left. Follow the configuration shown
- in the picture below, in <code>Default value</code> you can set what you prefer. 
+ You can set a template variable in a Dashboard clicking the icon <span class="cmd">Settings</span>, the gear icon on the 
+ top right, and then pressing the <span class="cmd">Variable</span> label on the left. Follow the configuration shown
+ in the picture below, in <span class="cmd">Default value</span> you can set what you prefer. 
 </p>
 
-<img src="./pics/grafana-variable-lucene.png" alt="grafana-variables" />
+<img style="padding-left:20px;width:600px;margin-top:20px;" src="./pics/grafana-variable-lucene.png" alt="grafana-variables" />
 
 
 
